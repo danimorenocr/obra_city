@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <title>ERROR 404</title>
+</head>
+<body class="bg-red-100 text-black flex flex-col justify-center items-center h-screen w-screen">
+<h1 class="text-3xl font-bold uppercase mb-6 text-black-200">ERROR 404</h1>
+<h2 class="text-3xl font-bold uppercase mb-6">la url solicitada no está disponible</h2>
+<button onclick="window.history.back()"
+        class = "text-3xl font-bold uppercase mb-6
+        text-red-200 hover:bg-red-700 text-white font-bold
+        py-2 px-4 rounded active:scale 105 transition-all" >Volver</button>
+</body>
+</html>

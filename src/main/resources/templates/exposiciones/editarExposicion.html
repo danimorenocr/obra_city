@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head}"></head>
+<body class="bg-gray-100">
+
+<!-- Encabezado con posición fija y z-index -->
+<header th:replace="~{layout/layout :: header}" class="fixed top-0 left-0 w-full bg-white z-10 shadow-md"></header>
+
+<main class="container mx-auto mt-10 "> <!-- Añadido padding-top para evitar el solapamiento -->
+
+<div class="w-full h-[20vh] mt-1">
+        <img src="/images/bannerExpo.jpg" alt="Imagen de ejemplo" class="w-full h-full object-cover">
+    </div>
+
+
+    <form th:object="${exposicionEdit}" th:action="@{/exposiciones/editarExposicion/{id}(id=${exposicionEdit.idExposicion})}" method="post" class="bg-white p-6 rounded-lg shadow-md" onsubmit="return validarFechas()">
+    
+        <!-- Título centrado -->
+        <h1 class="text-3xl font-bold mb-6 text-center">Editar Exposición</h1> <!-- Centrado con text-center -->
+
+        <!-- Título -->
+        <div class="mb-4">
+            <label for="tituloExp" class="block text-sm font-bold mb-2">Título</label>
+            <input id="tituloExp" type="text" th:field="*{tituloExp}" placeholder="Título de la exposición"
+                   class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:ring focus:ring-blue-300" required />
+        </div>
+
+        <!-- Descripción -->
+        <div class="mb-4">
+            <label for="descripcionExp" class="block text-sm font-bold mb-2">Descripción</label>
+            <textarea id="descripcionExp" th:field="*{descripcionExp}" placeholder="Descripción"
+                      class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:ring focus:ring-blue-300" required></textarea>
+        </div>
+
+        <!-- Fecha de inicio -->
+        <div class="mb-4">
+            <label for="fechaInicio" class="block text-sm font-bold mb-2">Fecha de Inicio</label>
+            <input id="fechaInicio" type="date" th:field="*{fechaInicio}"
+                   class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:ring focus:ring-blue-300" required 
+                   min="${#dates.format(T(java.time.LocalDate).now(), 'yyyy-MM-dd')}" />
+        </div>
+
+        <!-- Fecha de fin -->
+        <div class="mb-4">
+            <label for="fechaFin" class="block text-sm font-bold mb-2">Fecha de Fin</label>
+            <input id="fechaFin" type="date" th:field="*{fechaFin}"
+                   class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:ring focus:ring-blue-300" required 
+                   min="${#dates.format(T(java.time.LocalDate).now(), 'yyyy-MM-dd')}" />
+        </div>
+
+        <!-- Ubicación -->
+        <div class="mb-4">
+            <label for="ubicacionExp" class="block text-sm font-bold mb-2">Ubicación</label>
+            <input id="ubicacionExp" type="text" th:field="*{ubicacionExp}" placeholder="Ubicación"
+                   class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:ring focus:ring-blue-300" required />
+        </div>
+
+        <!-- Artistas -->
+        <div class="flex flex-col gap-2 text-start">
+            <label style="font-size:20px; font-family:'Comic Sans MS', serif" class="text-lg font-bold" for="artistas">Seleccionar Artista(s): </label>
+            <select id="artistas" name="artistas" th:field="*{artistas}" multiple="multiple"
+                    class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:ring focus:ring-blue-300">
+                <option th:each="artista : ${artistas}" 
+                        th:value="${artista.idArtista}" 
+                        th:text="${artista.nombreArt}" 
+                        th:selected="${exposicionEdit.artistas.contains(artistas)}">
+                </option>
+            </select>
+            <small class="text-red-900">Selecciona Uno o Varios Artista(s)</small>
+        </div>
+
+        <!-- Contenedor para el botón centrado -->
+        <div class="flex justify-center mt-6">
+            <button type="submit" class="bg-black text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-800 transition duration-300 transform hover:scale-105">
+                Guardar
+            </button>
+        </div>
+    </form>
+</main>
+
+<!-- Script de validación -->
+<script>
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('fechaInicio').setAttribute('min', today);
+    document.getElementById('fechaFin').setAttribute('min', today);
+
+    function validarFechas() {
+        const fechaInicio = document.getElementById('fechaInicio').value;
+        const fechaFin = document.getElementById('fechaFin').value;
+
+        if (fechaInicio < today) {
+            alert("La fecha de inicio no puede ser anterior a hoy.");
+            return false;
+        }
+        if (fechaFin < today) {
+            alert("La fecha de fin no puede ser anterior a hoy.");
+            return false;
+        }
+        if (fechaFin && fechaInicio > fechaFin) {
+            alert("La fecha de fin no puede ser anterior a la fecha de inicio.");
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+</body>
+</html>

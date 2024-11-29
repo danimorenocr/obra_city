@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head th:fragment="head">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[[${title}]]</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="/images/logoArriba.png" type="image/x-icon" />
+  </head>
+  <body>
+    <!-- Inicio del encabezado / banner -->
+    <header th:fragment="header">
+      <style>
+        body {
+          font-family: "Poppins", sans-serif;
+        }
+        .menu-item:hover {
+          background-color: black;
+          color: white;
+        }
+      </style>
+      <nav
+        class="absolute top-0 left-0 right-0 flex justify-between items-center bg-white py-4 px-10 w-screen h-[70px] shadow-md"
+      >
+        <!-- Logo -->
+        <div class="w-auto h-full flex items-center">
+          <a th:href="@{/}" class="flex items-center h-full gap-2">
+            <img src="/images/logo.jpg" alt="Obra City Logo" class="h-10" />
+          </a>
+        </div>
+
+        <!-- Navegación centrada -->
+        <ul class="flex gap-8 items-center justify-center flex-1">
+          <li>
+            <a
+              th:href="@{/artistas}"
+              class="menu-item text-gray-600 px-4 py-2 rounded font-medium"
+            >
+              Artistas
+            </a>
+          </li>
+          <li>
+            <a
+              th:href="@{/exposiciones}"
+              class="menu-item text-gray-600 px-4 py-2 rounded font-medium"
+            >
+              Exposiciones
+            </a>
+          </li>
+          <li>
+            <a
+              th:href="@{/obra}"
+              class="menu-item text-gray-600 px-4 py-2 rounded font-medium"
+            >
+              Obras
+            </a>
+          </li>
+        </ul>
+
+        <!-- Botón Cerrar Sesión a la derecha -->
+        <form th:action="@{/logout}" method="post">
+          <a
+            class="nav-link l-login text-black px-4 py-2 hover:bg-black hover:text-white hover:rounded-lg transition-all"
+            onclick="this.parentNode.submit();"
+            href="#"
+            >Salir</a
+          >
+        </form>
+      </nav>
+    </header>
+
+    <!-- Fin del encabezado / banner -->
+
+    <div
+      th:fragment="fondo"
+      class="absolute top-0 z-[-2] h-screen w-screen bg-red-200"
+    ></div>
+
+    <footer th:fragment="footer">
+      <div class="text-center text-black bottom-2 left-0 right-0">
+        &copy 2024. Casi todos los derechos reservados
+      </div>
+    </footer>
+  </body>
+</html>

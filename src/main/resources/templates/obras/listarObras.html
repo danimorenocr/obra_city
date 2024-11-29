@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Listado de Obras</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
+      <link rel="icon" href="/images/logoArriba.png" type="image/x-icon">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .menu-item:hover {
+            background-color: black;
+            color: white;
+        }
+        .btn-ver-mas {
+            display: flex;
+            align-items: center;
+            background-color: black;
+            justify-content: center;
+            color: white;
+            padding: 8px 16px;
+            font-size: 14px;
+            border-radius: 5px;
+            text-decoration: none;
+            position: absolute;
+            bottom: 16px; /* Alinea al fondo */
+            right: 16px;  /* Alinea a la derecha */
+        }
+        .btn-ver-mas:hover {
+            background-color: #2C7EF9; /* Cambia el color al pasar el mouse */
+            transform: scale(1.1); /* Efecto de agrandamiento al pasar el mouse */
+        }
+        .btn-ver-mas i {
+            font-size: 20px; /* Tamaño de la flecha */
+        }
+    </style>
+</head>
+
+   <header class="relative" th:replace="~{layout/layout :: header}"></header>
+<body>
+
+    <h1 class="text-center text-3xl font-bold mt-8" th:text="${title}">Listado de Obras</h1>
+
+    <!-- Contenedor para las tarjetas -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-8">
+        <!-- Iteración de obras con Thymeleaf -->
+        <div th:each="obra : ${obras}" class="relative max-w-sm bg-white shadow-lg rounded-lg overflow-hidden">
+            <img th:src="@{${obra.fotoObra}}" alt="Obra" class="w-full h-48 object-cover">
+            <div class="p-4">
+                <h2 th:text="${obra.tituloObra}" class="text-xl font-semibold text-gray-800"></h2>
+                <p th:text="${obra.idArtista.nombreArt}+ ' ' +${obra.idArtista.apellidoArt}" class="text-sm text-gray-500 mt-2">Por: Artista</p>
+            </div>
+            <!-- Botón a la derecha de la tarjeta -->
+            <a th:href="@{/obra/detalleObra/{id}(id=${obra.idObra})}" class="btn-ver-mas inline-block"><i class="fas fa-arrow-right  justify-center"></i> <!-- Flecha a la derecha -->
+            </a>
+        </div>
+    </div>
+
+    <!-- Botón de registro -->
+    <div class="fixed bottom-10 right-10">
+        <a th:href="@{/obra/crearObra}" sec:authorize="hasRole('ADMINISTRADOR')" class="bg-black text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-gray-800 hover:shadow-xl transition duration-300">
+            Registrar Obra
+        </a>
+    </div>
+    <footer class="relative" th:replace="~{layout/layout :: footer}"></footer>
+
+</body>
+</html>

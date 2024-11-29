@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="bg-white text-black flex flex-col justify-center h-screen w-screen" style="font-family: 'Poppins', sans-serif;">
+     
+    <header class="relative z-10" th:replace="~{layout/layout :: header}"></header>
+    
+    <div class="w-full h-[20vh] mt-12">
+        <img src="/images/bannerArtista.jpg" alt="Imagen de ejemplo" class="w-full h-full object-cover">
+    </div>
+
+    <div class="overflow-y-scroll w-full m-5 p-8">
+        <form th:object="${artista}" th:action="@{/artistas/editar/{id}(id=${artista.idArtista})}" method="post">
+            <div class="flex gap-8">
+               <!-- Columna izquierda -->
+                <div class="flex flex-col w-1/2 gap-6">
+                    <!-- Nombre del Artista -->
+                    <div class="flex flex-col gap-2 text-start">
+                        <label class="text-lg font-bold" for="nombreArtista">Nombre del Artista</label>
+                        <input class="bg-transparent py-1 border-b border-sky-900 focus:border-sky-500 transition-all focus:scale-105 focus:font-normal w-full"
+                            type="text" name="nombreArt" id="nombreArt" th:field="*{nombreArt}" required />
+                        <small class="text-red-900">* Digita el nombre del artista</small>
+                    </div>
+            
+                    <!-- Apellido del Artista -->
+                    <div class="flex flex-col gap-2 text-start">
+                        <label class="text-lg font-bold" for="apellidoArtista">Apellido del Artista</label>
+                        <input class="bg-transparent py-1 border-b border-sky-900 focus:border-sky-500 transition-all focus:scale-105 focus:font-normal w-full"
+                            type="text" name="apellidoArt" id="apellidoArt" th:field="*{apellidoArt}" required />
+                        <small class="text-red-900">* Digita el apellido del artista</small>
+                    </div>
+            
+
+                
+                    <!-- País del Artista -->
+                    <div class="flex flex-col gap-2 text-start">
+                        <label class="text-lg font-bold" for="paisArtista">País del Artista</label>
+                        <input class="bg-transparent py-1 border-b border-sky-900 focus:border-sky-500 transition-all focus:scale-105 focus:font-normal w-full"
+                            type="text" name="paisArt" id="paisArt" th:field="*{paisArt}" required />
+                        <small class="text-red-900">* Digita el país de origen del artista</small>
+                    </div>
+                </div>
+
+               <!-- Columna derecha -->
+                <div class="flex flex-col w-1/2 gap-6">
+                    <!-- Fecha de Nacimiento -->
+                    <div class="flex flex-col gap-2 text-start">
+                        <label class="text-lg font-bold" for="fechaNacArtista">Fecha de Nacimiento</label>
+                        <input class="bg-transparent py-1 border-b border-sky-900 focus:border-sky-500 transition-all focus:scale-105 focus:font-normal w-full"
+                               type="date" name="fechaNac" id="fechaNac" th:field="*{fechaNac}" required />
+                        <small class="text-red-900">* Selecciona la fecha de nacimiento del artista</small>
+                    </div>
+
+                    <!-- Disciplina del Artista -->
+                   <div class="flex flex-col gap-2 text-start">
+                        <label class="text-lg font-bold" for="disciplinaArtista">Disciplina del Artista</label>
+                        <input class="bg-transparent py-1 border-b border-sky-900 focus:border-sky-500 transition-all focus:scale-105 focus:font-normal w-full"
+                               type="text" name="disciplinaArtista" id="disciplinaArtista" th:field="*{disciplinaArtista}" required />
+                        <small class="text-red-900">* Digita la disciplina del artista (p. ej., pintura, escultura, etc.)</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col justify-center items-center mb-4 mt-6">
+                <input class="border border-black py-2 px-4 rounded bg-black hover:bg-gray-800 hover:text-white transition-all active:scale-105 font-bold text-lg text-white m-auto" type="submit" value="Actualizar Artista">
+            </div>
+        </form>
+    </div>
+
+    <footer class="relative" th:replace="~{layout/layout :: footer}"></footer>
+</body>
+</html>

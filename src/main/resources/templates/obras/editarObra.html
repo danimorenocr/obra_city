@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{layout/layout :: head}">
+    <title>Editar Obra</title>
+    <!-- Agregar el enlace a Google Fonts para la fuente Poppins -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="bg-white text-black flex flex-col justify-center h-screen w-screen"
+    style="font-family: 'Poppins', sans-serif"
+  >
+    <header
+      class="relative z-10"
+      th:replace="~{layout/layout :: header}"
+    ></header>
+<!-- Banner -->
+    <div class="w-full h-[20vh] mt-8">
+        <img src="/images/bannerObra.jpg" alt="Imagen de ejemplo" class="w-full h-full object-cover">
+    </div>
+
+    <section class="w-full flex justify-center pt-1">
+      <div class="w-4/5 max-w-5xl bg-white shadow-md rounded-lg p-8">
+        <form
+          th:object="${obra}"
+          th:action="@{/obra/editarObra/{id}(id=${obra.idObra})}"
+          method="post"
+          enctype="multipart/form-data"
+          class="grid grid-cols-2 gap-6"
+        >
+          <!-- Columna izquierda -->
+          <div class="flex flex-col gap-4">
+            <!-- Título de la Obra -->
+            <div class="flex flex-col gap-2">
+              <label class="text-lg font-bold text-black" for="tituloObra"
+                >Título de la Obra</label
+              >
+              <input
+                class="bg-transparent py-1 px-2 border-b border-gray-400 focus:border-sky-500 transition-all focus:scale-105 w-full"
+                type="text"
+                name="tituloObra"
+                id="tituloObra"
+                placeholder="El jardín de las delicias"
+                th:field="*{tituloObra}"
+                required
+              />
+            </div>
+
+            <!-- Descripción de la Obra -->
+            <div class="flex flex-col gap-2">
+              <label class="text-lg font-bold text-black" for="descripcionObra"
+                >Descripción de la Obra</label
+              >
+              <textarea
+                class="bg-transparent py-1 px-2 border-b border-gray-400 focus:border-sky-500 transition-all focus:scale-105 w-full"
+                name="descripcionObra"
+                id="descripcionObra"
+                th:field="*{descripcionObra}"
+                required
+              ></textarea>
+            </div>
+
+            <!-- Técnica de la Obra -->
+            <div class="flex flex-col gap-2">
+              <label class="text-lg font-bold text-black" for="tecnicaObra"
+                >Técnica de la Obra</label
+              >
+              <input
+                class="bg-transparent py-1 px-2 border-b border-gray-400 focus:border-sky-500 transition-all focus:scale-105 w-full"
+                type="text"
+                name="tecnicaObra"
+                id="tecnicaObra"
+                placeholder="Óleo sobre lienzo"
+                th:field="*{tecnicaObra}"
+                required
+              />
+            </div>
+
+            <!-- Artista -->
+            <div class="flex flex-col gap-2">
+              <label class="text-lg font-bold text-black" for="artistas"
+                >Seleccionar Artista</label
+              >
+              <select
+                class="bg-transparent py-1 px-2 border-b border-gray-400 focus:border-sky-500 transition-all focus:scale-105 w-full"
+                id="artistas"
+                name="artista"
+                required
+              >
+                <option value="" th:text="'Selecciona un Artista'">
+                  Selecciona un Artista
+                </option>
+                <option
+                  th:each="artista : ${artistas}"
+                  th:value="${artista.idArtista}"
+                  th:text="${artista.nombreArt}"
+                  th:selected="${artista.idArtista == obra.idArtista?.idArtista}"
+                ></option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Columna derecha -->
+          <div class="flex flex-col gap-4 items-center">
+            <!-- Imagen Actual -->
+            <div>
+              <label class="text-lg font-bold text-black" for="fotoObra"
+                >Foto de la Obra</label
+              >
+              <img
+                th:src="@{${obra.fotoObra}}"
+                id="currentImage"
+                class="img-thumbnail rounded-lg shadow-md w-full max-w-xs"
+                alt="Imagen actual"
+              />
+            </div>
+
+            <!-- Subir nueva imagen -->
+            <div class="flex flex-col items-center gap-2 w-full">
+              <input
+                class="bg-transparent py-1 px-2 border-b border-gray-400 focus:border-sky-500 transition-all focus:scale-105 w-full"
+                type="file"
+                name="foto"
+                id="foto"
+                accept="image/*"
+              />
+              <img
+                class="img-thumbnail mt-4 hidden w-full max-w-xs"
+                id="previewImage"
+                src=""
+                alt="Imagen subida"
+              />
+            </div>
+          </div>
+
+          <!-- Botón -->
+          <div class="col-span-2 flex justify-center mt-6">
+            <input
+              class="py-2 px-4 rounded bg-black text-white hover:bg-gray-800 transition-all font-bold text-lg"
+              type="submit"
+              value="Actualizar Obra"
+            />
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer class="relative" th:replace="~{layout/layout :: footer}"></footer>
+
+    <script>
+      // Tamaño máximo permitido (en bytes)
+      const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2 MB
+
+      document
+        .getElementById("foto")
+        .addEventListener("change", function (event) {
+          const file = event.target.files[0];
+          const preview = document.getElementById("previewImage");
+
+          // Validar si el archivo es demasiado grande
+          if (file && file.size > MAX_FILE_SIZE) {
+            alert(
+              "El tamaño del archivo es demasiado grande. Por favor, selecciona una imagen menor a 2 MB."
+            );
+            event.target.value = ""; // Limpiar el campo de archivo
+            preview.classList.add("hidden");
+            preview.src = ""; // Ocultar y limpiar la vista previa
+            return;
+          }
+
+          // Mostrar vista previa si el archivo es válido
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function () {
+              preview.src = reader.result;
+              preview.classList.remove("hidden");
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <title>ERROR 500</title>
+</head>
+<body class="bg-red-100 text-black flex flex-col justify-center items-center h-screen w-screen">
+<h1 class="text-3xl font-bold uppercase mb-6 text-black-200">ERROR 500</h1>
+<h2 class="text-3xl font-bold uppercase mb-6">lo sentimos, se ha presentado un error en el servidor</h2>
+<button onclick="window.history.back()"
+        class = "text-3xl font-bold uppercase mb-6
+        bg-black-200 hover:bg-red-700 text-black font-bold
+        py-2 px-4 rounded active:scale 105 transition-all">Volver</button>
+
+</body>
+</html>

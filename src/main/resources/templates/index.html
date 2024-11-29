@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obra City</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+      <link rel="icon" href="/images/logoArriba.png" type="image/x-icon">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .menu-item:hover {
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-zinc-300 text-black h-screen w-screen">
+
+    <!-- Encabezado -->
+    <header class="w-full bg-white py-4 px-10 flex justify-between items-center shadow-md">
+        <div class="flex items-center gap-2">
+            <!-- Logo de Obra City -->
+            <img src="../images/logo.jpg" alt="Obra City Logo" class="h-10">
+        </div>
+        <!-- Menú centrado -->
+        <nav class="absolute left-1/2 transform -translate-x-1/2 flex gap-8">
+            <a href="/artistas" class="menu-item px-4 py-2 rounded font-medium transition-all">Artistas</a>
+            <a href="/exposiciones" class="menu-item px-4 py-2 rounded font-medium transition-all">Exposiciones</a>
+            <a href="/obra" class="menu-item px-4 py-2 rounded font-medium transition-all">Obras</a>
+
+        </nav>
+    </header>
+
+    <!-- Sección principal -->
+    <div class="relative w-full h-[calc(100vh-70px)] overflow-hidden">
+        <!-- Fondo de la sección principal -->
+        <img src="../images/fondo.jpg" alt="Fondo" class="absolute top-0 left-0 w-full h-full object-cover">
+        <!-- Texto principal -->
+        <div class="relative z-10 flex flex-col justify-center items-center h-full text-center text-white bg-black bg-opacity-50 p-4">
+            <h1 class="text-4xl font-bold mb-4">Cada detalle cuenta</h1>
+            <h2 class="text-2xl">una <span class="font-bold">historia</span></h2>
+           
+        </div>
+    </div>
+
+</body>
+</html>

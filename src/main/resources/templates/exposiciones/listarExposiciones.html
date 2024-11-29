@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head}">
+  <!-- Incluir Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+
+  <!-- Header -->
+  <header class="relative" th:replace="~{layout/layout :: header}"></header>
+
+  <!-- Main Content -->
+  <div class="w-full max-w-6xl mt-20 mx-auto">
+
+    <!-- Title, Search and Button Section -->
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-3xl font-bold text-gray-800">Exposiciones</h2>
+
+      <div class="flex gap-4 items-center">
+        <!-- Search -->
+        <form method="get" th:action="@{/exposiciones}">
+          <div class="flex items-center bg-white border border-gray-300 rounded-lg px-4 py-2">
+            <input type="text" name="ubicacion" placeholder="Buscar por ubicación..." class="outline-none w-full text-gray-600" />
+            <button class="text-gray-600 hover:text-gray-800">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M8 4a6 6 0 100 12A6 6 0 108 4zM2 8a8 8 0 1113.93 4.95l4.387 4.387a1 1 0 11-1.414 1.414l-4.387-4.387A8 8 0 012 8z" />
+              </svg>
+            </button>
+          </div>
+        </form>
+
+        <!-- Add Button -->
+        <a th:href="@{/exposiciones/crearExposicion}" class="bg-gray-800 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-xl transition duration-300 sec:authorize="
+         sec:authorize="hasRole('ADMINISTRADOR')">
+          Agregar Exposiciones
+        </a>
+      </div>
+    </div>
+
+    <!-- Exposition Cards -->
+    <div th:each="exposicion : ${exposiciones}" 
+         class="flex items-center justify-between bg-gray-900 text-white rounded-lg px-6 py-4 shadow-md hover:scale-105 transition-transform mb-4">
+
+      <!-- Fecha de inicio -->
+      <div class="text-center">
+        <p class="text-2xl font-bold" th:text="${#dates.format(exposicion.fechaInicio, 'dd')}"></p>
+        <p class="text-sm" th:text="${#dates.format(exposicion.fechaInicio, 'MM/yyyy')}"></p>
+      </div>
+        <!-- Línea vertical -->
+    <div class="border-l-2 border-white h-20 mx-4"></div> <!-- Línea vertical aquí -->
+
+   <!-- Descripción -->
+<div class="w-2/5 ml-3 max-w-lg"> <!-- Ajuste de ancho máximo y flex -->
+    <h3 class="text-xl font-bold" th:text="${exposicion.tituloExp}"></h3>
+    <p class="text-sm" th:text="${exposicion.descripcionExp}"></p>
+</div>
+
+<!-- Descripción -->
+
+<div class="text-left self-start">
+    <p class="font-semibold">Autores:</p>
+    <ul> <!-- Se elimina pl-2 del ul -->
+        <li th:each="artista : ${exposicion.artistas}" th:text="${artista.nombreArt} + ' ' + ${artista.apellidoArt}"></li>
+    </ul>
+</div>
+
+
+
+
+      <!-- Ubicación -->
+      <div class="text-right">
+        <p class="font-semibold" th:text="${exposicion.ubicacionExp}"></p>
+      </div>
+
+      <!-- Fecha de finalización -->
+      <div class="text-center ml-2">
+        <p class="text-2xl font-bold" th:text="${#dates.format(exposicion.fechaFin, 'dd')}"></p>
+        <p class="text-sm" th:text="${#dates.format(exposicion.fechaFin, 'MM/yyyy')}"></p>
+      </div>
+
+  <!-- Botón de Editar con ícono de Font Awesome -->
+<div class="text-right ml-4">
+  <a th:href="@{/exposiciones/editarExposicion/{id}(id=${exposicion.idExposicion})}" sec:authorize="hasRole('ADMINISTRADOR')" 
+     class="bg-gray-800 text-white font-bold w-12 h-12 flex items-center justify-center rounded-lg hover:bg-blue-400 transition-colors">
+    <!-- Ícono de editar con Font Awesome -->
+    <i class="fas fa-edit text-xl"></i>
+  </a>
+</div>
+
+
+     <!-- Botón de Eliminar con ícono de Font Awesome -->
+<div class="text-right ml-4">
+  <a th:href="@{/exposiciones/eliminarExposicion/{id}(id=${exposicion.idExposicion})}" sec:authorize="hasRole('ADMINISTRADOR')"
+     class="bg-red-600 text-white font-bold w-12 h-12 flex items-center justify-center rounded-lg hover:bg-red-500 transition-colors"
+     onclick="return confirm('¿Estás seguro de que deseas eliminar esta exposición?')">
+    <!-- Ícono de eliminar con Font Awesome -->
+    <i class="fas fa-trash-alt text-xl"></i>
+  </a>
+</div>
+
+    </div>
+  </div>
+</body>
+</html>

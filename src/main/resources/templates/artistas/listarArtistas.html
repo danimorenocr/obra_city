@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head}"></head>
+<body class="bg-gray-100">
+
+  <header class="relative" th:replace="~{layout/layout :: header}"></header>
+
+  <!-- Main Content -->
+  <div class="w-full max-w-6xl mt-20 mx-auto">
+
+    <!-- Title, Search and Button Section -->
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-3xl font-bold text-gray-800">Artistas</h2>
+
+      <div class="flex gap-4 items-center">
+        <form method="get" th:action="@{/artistas}">
+          <div class="flex items-center bg-white border border-gray-300 rounded-lg px-4 py-2">
+            <input type="text" name="nombre" placeholder="Buscar por nombre..." class="outline-none w-full text-gray-600" />
+            <button class="text-gray-600 hover:text-gray-800">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M8 4a6 6 0 100 12A6 6 0 108 4zM2 8a8 8 0 1113.93 4.95l4.387 4.387a1 1 0 11-1.414 1.414l-4.387-4.387A8 8 0 012 8z" />
+              </svg>
+            </button>
+          </div>
+        </form>
+
+        <a th:href="@{/artistas/crear}" sec:authorize="hasRole('ADMINISTRADOR')" class="bg-gray-800 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-xl transition duration-300">
+          Agregar Artista
+        </a>
+      </div>
+    </div>
+
+    <!-- Artist Cards in Grid (3 columns) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div th:each="artista : ${artistas}" class="bg-gray-900 text-white rounded-lg p-4 shadow-md hover:scale-105 transition-transform">
+
+        <!-- Información del artista -->
+        <div class="flex-1 mb-6">
+          <h3 class="text-xl font-bold text-center mb-4" th:text="${artista.nombreArt} + ' ' + ${artista.apellidoArt}"></h3>
+          <div class="flex items-center">
+            <i class="fas fa-globe fa-sm mr-2"></i><p><span class="font-bold">País:</span> <span th:text="${artista.paisArt}"></span></p>
+          </div>
+          <div class="flex items-center">
+            <i class="fas fa-palette fa-sm mr-2"></i><p><span class="font-bold">Disciplina:</span> <span th:text="${artista.disciplinaArtista}"></span></p>
+          </div>
+          <div class="flex items-center">
+            <i class="fas fa-birthday-cake fa-sm mr-2"></i><p><span class="font-bold">Fecha de Nacimiento:</span> <span th:text="${#dates.format(artista.fechaNac, 'dd/MM/yyyy')}"></span></p>
+          </div>
+        </div>
+
+        <!-- Botones de Editar y Eliminar (centrados) -->
+        <div class="flex justify-center gap-4">
+          
+          <!-- Botón de Eliminar con confirmación -->
+          <div>
+            <a th:href="@{/artistas/eliminar/{id}(id=${artista.idArtista})}" sec:authorize="hasRole('ADMINISTRADOR')"
+               class="bg-red-600 text-white font-bold p-2 w-10 h-10 flex justify-center items-center rounded-lg hover:bg-red-500 transition-colors"
+               onclick="return confirm('¿Estás seguro de que deseas eliminar este artista?')">
+              <i class="fas fa-trash-alt fa-lg"></i>
+            </a>
+          </div>
+
+          <!-- Botón de Editar con ícono cuadrado -->
+          <div>
+            <a th:href="@{/artistas/editar/{id}(id=${artista.idArtista})}" sec:authorize="hasRole('ADMINISTRADOR')"
+               class="bg-gray-800 text-white font-bold p-2 w-10 h-10 flex justify-center items-center rounded-lg hover:bg-blue-400 transition-colors">
+              <i class="fas fa-edit fa-lg"></i>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Agregar FontAwesome -->
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+</html>
